@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dishes-api", "dishes-api.csproj", "{CF468B39-6AB5-436F-9F29-1209EA08ECCA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF468B39-6AB5-436F-9F29-1209EA08ECCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF468B39-6AB5-436F-9F29-1209EA08ECCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF468B39-6AB5-436F-9F29-1209EA08ECCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF468B39-6AB5-436F-9F29-1209EA08ECCA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3A55FFE6-14C8-4761-AA87-C4E660EC3F59}
+	EndGlobalSection
+EndGlobal

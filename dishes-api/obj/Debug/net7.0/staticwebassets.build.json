@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "WF0mN14wfJUOWEvJBfT+x2gcn5TQfiFrvXhJo7MKHPI=",
+  "Source": "dishes-api",
+  "BasePath": "_content/dishes-api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

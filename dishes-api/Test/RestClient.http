@@ -1,0 +1,10 @@
+@url = http://localhost:5202
+###
+@sslurl = https://localhost:7140
+
+###
+
+GET {{url}}/weatherforecast
+
+###
+GET {{sslurl}}/weatherforecast
