@@ -40,6 +40,10 @@ namespace DishesAPI.Extensions
             // Get Ingredients for a Dish Id
             ingredientsWithGuidEndpoints.MapGet("", IngredientsHandlers.GetIngredientsAsync);
 
+            // Post ingredient
+            ingredientsWithGuidEndpoints.MapPost("", () => { throw new NotImplementedException(); });
+
+
         }
     }
 }
