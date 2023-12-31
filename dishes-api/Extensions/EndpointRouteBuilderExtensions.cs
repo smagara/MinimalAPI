@@ -1,6 +1,6 @@
 
+using DishesAPI.EndPointFilters;
 using DishesAPI.EndpointHandlers;
-using DishesAPI.Models;
 
 namespace DishesAPI.Extensions
 {
@@ -23,13 +23,24 @@ namespace DishesAPI.Extensions
             dishesEndpoints.MapGet("/{dishName}", DishesHandler.GetDishByNameAsync).WithName("GetDishByName");
 
             // Add a Dish
-            dishesEndpoints.MapPost("", DishesHandler.AddDishAsync).WithName("AddDish");
+            dishesEndpoints.MapPost("", DishesHandler.AddDishAsync)
+                .AddEndpointFilter(new ValidateAnnotationsFilter())
+                .WithName("AddDish");
 
             // Delete a Dish
-            dishesWithGuidEndpoints.MapDelete("", DishesHandler.DeleteDishAsync).WithName("DeleteDish");
+            dishesWithGuidEndpoints.MapDelete("", DishesHandler.DeleteDishAsync)
+                .AddEndpointFilter(new DishLockedFilter(new Guid("fd630a57-2352-4731-b25c-db9cc7601b16")))
+                .AddEndpointFilter(new DishLockedFilter(new Guid("b512d7cf-b331-4b54-8dae-d1228d128e8d")))
+                .AddEndpointFilter<LogResponseNotFoundFilter>()
+                .WithName("DeleteDish");
 
             // Update a Dish
-            dishesWithGuidEndpoints.MapPut("", DishesHandler.UpdateDishAsync).WithName("UpdateDish").WithDescription("Update a Dish record.");
+            dishesWithGuidEndpoints.MapPut("", DishesHandler.UpdateDishAsync)
+                .AddEndpointFilter(new DishLockedFilter(new Guid("fd630a57-2352-4731-b25c-db9cc7601b16")))
+                .AddEndpointFilter(new DishLockedFilter(new Guid("b512d7cf-b331-4b54-8dae-d1228d128e8d")))
+                .AddEndpointFilter(new ValidateAnnotationsFilter())
+                .WithName("UpdateDish")
+                .WithDescription("Update a Dish record.");
         }
 
         public static void RegisterIngredientsEndpoints(this IEndpointRouteBuilder endpointRouteBuilder)

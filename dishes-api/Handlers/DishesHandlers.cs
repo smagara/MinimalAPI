@@ -10,6 +10,7 @@ namespace DishesAPI.EndpointHandlers;
 
 public static class DishesHandler
 {
+    // Get Dishes
     public static async Task<Ok<IEnumerable<DishDto>>>
     GetDishesAsync(DishesDbContext dishDB,
         IMapper mapper,
@@ -25,6 +26,7 @@ public static class DishesHandler
             .ToListAsync()));
     }
 
+    // Get Dish by ID
     public static async Task<Results<NotFound, Ok<DishDto>>>
     GetDishByIdAsync(DishesDbContext dishDB, Guid dishId, IMapper mapper, ILogger<string> logger)
     {
@@ -36,6 +38,7 @@ public static class DishesHandler
             return TypedResults.Ok(mapper.Map<DishDto>(dishEntity));
     }
 
+    // Get Dish by Name
     public static async Task<Results<NotFound, Ok<DishDto>>>
     GetDishByNameAsync(DishesDbContext dishDB, IMapper mapper, string dishName, ILogger<string> logger)
     {
@@ -43,6 +46,7 @@ public static class DishesHandler
         return TypedResults.Ok(mapper.Map<DishDto>(await dishDB.Dishes.FirstOrDefaultAsync(d => d.Name == dishName)));
     }
 
+    // Add Dish
     public static async Task<CreatedAtRoute<DishDto>>
 
     AddDishAsync(DishesDbContext dishDB,
@@ -63,6 +67,7 @@ public static class DishesHandler
         return TypedResults.CreatedAtRoute(dishReturn, "GetDish", new { dishId = dishReturn.Id });
     }
 
+    // Delete Dish
     public static async Task<Results<NotFound, NoContent>>
     DeleteDishAsync(
         DishesDbContext dishesDB,
@@ -81,12 +86,13 @@ public static class DishesHandler
         return TypedResults.NoContent();
     }
 
+    // Update Dish
     public static async Task<Results<NotFound, NoContent>>
-    UpdateDishAsync(
-    DishesDbContext dishDB,
-    IMapper mapper,
-    Guid dishId,
-    DishUpdateDto dishUpdateDto)
+        UpdateDishAsync(
+        DishesDbContext dishDB,
+        IMapper mapper,
+        Guid dishId,
+        DishUpdateDto dishUpdateDto)
     {
 
         Dish? dishEntity = await dishDB.Dishes.FirstOrDefaultAsync(a => a.Id == dishId);
