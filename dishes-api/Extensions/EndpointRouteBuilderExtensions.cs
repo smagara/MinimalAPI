@@ -23,10 +23,10 @@ namespace DishesAPI.Extensions
             dishesEndpoints.MapGet("/{dishName}", DishesHandler.GetDishByNameAsync).WithName("GetDishByName");
 
             // Add a Dish
-            dishesEndpoints.MapPost("", DishesHandler.AddDishAsync);
+            dishesEndpoints.MapPost("", DishesHandler.AddDishAsync).WithName("AddDish");
 
             // Delete a Dish
-            dishesWithGuidEndpoints.MapDelete("", DishesHandler.DeleteDishAsync);
+            dishesWithGuidEndpoints.MapDelete("", DishesHandler.DeleteDishAsync).WithName("DeleteDish");
 
             // Update a Dish
             dishesWithGuidEndpoints.MapPut("", DishesHandler.UpdateDishAsync).WithName("UpdateDish").WithDescription("Update a Dish record.");

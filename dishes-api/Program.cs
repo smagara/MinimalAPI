@@ -9,6 +9,9 @@ using DishesAPI.EndpointHandlers;
 using DishesAPI.Entities;
 using DishesAPI.Models;
 using DishesAPI.Extensions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Log4Net.AspNetCore;
+using SQLitePCL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +25,12 @@ builder.Services.AddDbContext<DishesDbContext>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddProblemDetails();
+
+#region logging
+builder.Logging.AddLog4Net(log4NetConfigFile: "log4net.config");
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,17 +41,18 @@ if (app.Environment.IsDevelopment())
 }
 
 if (!app.Environment.IsDevelopment())
-app.UseExceptionHandler(configureApplicationBuilder =>
-{
-       configureApplicationBuilder.Run(
-           async context =>
-           {
-               context.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
-               context.Response.ContentType = "text/html";
-               await context.Response.WriteAsync("An unexpected problem happened.");
-           });
-    
-});
+    app.UseExceptionHandler(configureApplicationBuilder =>
+    {
+        app.UseExceptionHandler();
+        //    configureApplicationBuilder.Run(
+        //        async context =>
+        //        {
+        //            context.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+        //            context.Response.ContentType = "text/html";
+        //            await context.Response.WriteAsync("An unexpected problem happened.");
+        //        });
+        
+    });
 
 app.UseHttpsRedirection();
 
