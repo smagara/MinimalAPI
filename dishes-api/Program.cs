@@ -12,12 +12,19 @@ using DishesAPI.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Log4Net.AspNetCore;
 using SQLitePCL;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+// builder.Services.AddHttpsRedirection(options =>
+// {
+//     options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
+//     options.HttpsPort = 7140;
+// });
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DishesDbContext>
@@ -27,11 +34,29 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddProblemDetails();
 
+builder.Services.AddAuthentication().AddJwtBearer();
+builder.Services.AddAuthorization();
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("RequireAdmin", policy =>
+    {
+        policy
+            .RequireRole("admin")
+            .RequireClaim("country", "US");
+
+    });
+
 #region logging
 builder.Logging.AddLog4Net(log4NetConfigFile: "log4net.config");
 #endregion
 
+//builder.Services.AddCors();  // CORS Error: XMLHttpRequest. has been blocked by CORS policy: No 'Access-Control-Allow-Origin'
 var app = builder.Build();
+
+// app.UseCors(builder => builder // CORS remedy
+// .AllowAnyOrigin()
+// .AllowAnyMethod()
+// .AllowAnyHeader()
+// );
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -55,6 +80,9 @@ if (!app.Environment.IsDevelopment())
     });
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // configure API endpoint routing paths
 app.RegisterDishesEndpoints();
