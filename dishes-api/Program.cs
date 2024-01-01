@@ -25,7 +25,33 @@ builder.Services.AddEndpointsApiExplorer();
 //     options.HttpsPort = 7140;
 // });
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(
+    o =>
+    {
+        o.AddSecurityDefinition("TokenAuthNZ",
+           new()
+           {
+               Name = "Authorization",
+               Description = "Token-based auth",
+               Type = SecuritySchemeType.Http,
+               Scheme = "Bearer",
+               In = ParameterLocation.Header
+           });
+
+        o.AddSecurityRequirement(new()  // Pluralsight recommends this terse syntax, just instantiate a temp OpenApiSecurityRequirement for clarity
+            {
+                {
+                    new ()
+                    {
+                        Reference = new OpenApiReference {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "TokenAuthNZ" }
+                    }, new List<string>()}
+            });
+
+    }
+);
 
 builder.Services.AddDbContext<DishesDbContext>
 (options => options.UseSqlite("name=ConnectionStrings:DishesDBConnectionString"));
